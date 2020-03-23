@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Task04</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="description_hint">Описание</string>
+    <string name="name_hint">Имя</string>
+    <string name="quantity_hint">Количество</string>
+    <string name="periodicity_hint">Периодичность</string>
+    <string name="quantity">Кол-во: </string>
+    <string name="periodicity">Периодичность: </string>
+    <string name="save_habit">Сохранить</string>
+    <string name="menu_title1">title 1</string>
+    <string name="menu_title2">title 2</string>
+    <string name="author_mail">n.shvedov27@gmail.com</string>
+    <string name="nav_bar_title_habit_list">Привычки</string>
+    <string name="about_app">О приложении</string>
+    <string name="app_description">
+        Training project of SkbContur/DoubletApp android course.
+        \n
+        \n
+        Android app for control and view your habit.
+    </string>
+</resources>
