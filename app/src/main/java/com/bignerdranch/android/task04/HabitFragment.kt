@@ -1,28 +1,29 @@
 package com.bignerdranch.android.task04
 
-import com.bignerdranch.android.task04.data.entity.Habit
-import com.bignerdranch.android.task04.data.entity.HabitColor
-import com.bignerdranch.android.task04.data.entity.HabitPriority
-import com.bignerdranch.android.task04.data.entity.HabitType
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.view.Gravity
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bignerdranch.android.task04.data.HabitRepository
+import com.bignerdranch.android.task04.data.entity.Habit
+import com.bignerdranch.android.task04.data.entity.HabitColor
+import com.bignerdranch.android.task04.data.entity.HabitPriority
+import com.bignerdranch.android.task04.data.entity.HabitType
 import kotlinx.android.synthetic.main.fragment_habit.*
 import java.util.*
 
 
 class HabitFragment : Fragment() {
     private lateinit var habit: Habit
+    private var colorPickAdapter: ColorPickAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,9 +36,96 @@ class HabitFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         habit = getHabit()
         initUI(view)
-
     }
 
+    private inner class ColorPickHolder(containerView: View) :
+        RecyclerView.ViewHolder(containerView),
+        View.OnClickListener {
+        private lateinit var currentHabitColor: HabitColor
+        private var colorPickButton: Button =
+            containerView.findViewById(R.id.color_pick_list_item_btn)
+        private var colorPickWrapper: FrameLayout =
+            containerView.findViewById(R.id.color_pick_list_item_wrapper)
+
+        fun bindColorPick(
+            previousHabitColor: HabitColor,
+            currentHabitColor: HabitColor,
+            nextHabitColor: HabitColor
+        ) {
+            this.currentHabitColor = currentHabitColor
+            val previousColor: Int = ContextCompat.getColor(activity!!, previousHabitColor.colorId)
+            val currentColor: Int = ContextCompat.getColor(activity!!, currentHabitColor.colorId)
+            val nextColor: Int = ContextCompat.getColor(activity!!, nextHabitColor.colorId)
+
+            val frameLayoutBackground = GradientDrawable(
+                GradientDrawable.Orientation.LEFT_RIGHT,
+                intArrayOf(
+                    ColorUtils.blendARGB(previousColor, currentColor, 0.5f),
+                    currentColor,
+                    ColorUtils.blendARGB(currentColor, nextColor, 0.5f)
+                )
+            ).apply {
+                shape = GradientDrawable.RECTANGLE
+                gradientType = GradientDrawable.LINEAR_GRADIENT
+            }
+
+            colorPickButton.background = GradientDrawable().apply {
+                setColor(currentColor)
+                cornerRadius = 5f
+                setStroke(1, ContextCompat.getColor(activity!!, R.color.grey))
+            }
+
+            colorPickButton.setOnClickListener(this)
+            colorPickWrapper.background = frameLayoutBackground
+        }
+
+        override fun onClick(v: View?) {
+            val currentColor = ContextCompat.getColor(activity!!, currentHabitColor.colorId)
+            current_color_img.setBackgroundColor(currentColor)
+            habit.color = currentHabitColor
+            current_color_rgb.text = resources.getString(
+                R.string.rgb_current_color,
+                Color.red(ContextCompat.getColor(activity!!, habit.color.colorId)),
+                Color.green(ContextCompat.getColor(activity!!, habit.color.colorId)),
+                Color.blue(ContextCompat.getColor(activity!!, habit.color.colorId))
+            )
+
+            val hsvArray = floatArrayOf(0f, 0f, 0f)
+            Color.colorToHSV(ContextCompat.getColor(activity!!, habit.color.colorId), hsvArray)
+            current_color_hsv.text = resources.getString(
+                R.string.hsv_current_color,
+                hsvArray[0],
+                hsvArray[1],
+                hsvArray[2]
+            )
+        }
+    }
+
+    private inner class ColorPickAdapter(var colors: List<HabitColor>) :
+        RecyclerView.Adapter<ColorPickHolder>() {
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ColorPickHolder {
+            val layoutInflater = LayoutInflater.from(activity)
+            val view = layoutInflater.inflate(R.layout.color_pick_list_item, parent, false)
+            return ColorPickHolder(view)
+        }
+
+        override fun getItemCount(): Int {
+            return colors.size
+        }
+
+        override fun onBindViewHolder(holder: ColorPickHolder, position: Int) {
+            val previousColor: HabitColor = when (position) {
+                0 -> colors[position]
+                else -> colors[position - 1]
+            }
+            val nextColor: HabitColor = when (position) {
+                HabitColor.values().size - 1 -> colors[position]
+                else -> colors[position + 1]
+            }
+
+            holder.bindColorPick(previousColor, colors[position], nextColor)
+        }
+    }
 
     override fun onResume() {
         super.onResume()
@@ -46,79 +134,64 @@ class HabitFragment : Fragment() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putString(EXTRA_HABIT_NAME_KEY, habit!!.name)
-        outState.putString(EXTRA_HABIT_DESCRIPTION_KEY, habit!!.description)
-        outState.putSerializable(EXTRA_HABIT_TYPE_KEY, habit!!.type)
-        outState.putSerializable(EXTRA_HABIT_PRIORITY_KEY, habit!!.priority)
-        outState.putInt(EXTRA_HABIT_PERIODICITY_KEY, habit!!.periodicity)
-        outState.putInt(EXTRA_HABIT_QUANTITY_KEY, habit!!.quantity)
-        outState.putSerializable(EXTRA_HABIT_COLOR_KEY, habit!!.color)
+        outState.putString(EXTRA_HABIT_NAME_KEY, habit.name)
+        outState.putString(EXTRA_HABIT_DESCRIPTION_KEY, habit.description)
+        outState.putSerializable(EXTRA_HABIT_TYPE_KEY, habit.type)
+        outState.putSerializable(EXTRA_HABIT_PRIORITY_KEY, habit.priority)
+        outState.putInt(EXTRA_HABIT_PERIODICITY_KEY, habit.periodicity)
+        outState.putInt(EXTRA_HABIT_QUANTITY_KEY, habit.quantity)
+        outState.putSerializable(EXTRA_HABIT_COLOR_KEY, habit.color)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        if (savedInstanceState!= null) {
-            habit!!.name = savedInstanceState.getString(EXTRA_HABIT_NAME_KEY)!!
-            habit!!.description = savedInstanceState.getString(EXTRA_HABIT_DESCRIPTION_KEY)!!
-            habit!!.type = savedInstanceState.getSerializable(EXTRA_HABIT_TYPE_KEY)!! as HabitType
-            habit!!.priority = savedInstanceState.getSerializable(EXTRA_HABIT_PRIORITY_KEY)!! as HabitPriority
-            habit!!.quantity = savedInstanceState.getInt(EXTRA_HABIT_QUANTITY_KEY)
-            habit!!.periodicity = savedInstanceState.getInt(EXTRA_HABIT_PERIODICITY_KEY)
-            habit!!.color = savedInstanceState.getSerializable(EXTRA_HABIT_COLOR_KEY)!! as HabitColor
+        if (savedInstanceState != null) {
+            habit.name = savedInstanceState.getString(EXTRA_HABIT_NAME_KEY)!!
+            habit.description = savedInstanceState.getString(EXTRA_HABIT_DESCRIPTION_KEY)!!
+            habit.type = savedInstanceState.getSerializable(EXTRA_HABIT_TYPE_KEY)!! as HabitType
+            habit.priority =
+                savedInstanceState.getSerializable(EXTRA_HABIT_PRIORITY_KEY)!! as HabitPriority
+            habit.quantity = savedInstanceState.getInt(EXTRA_HABIT_QUANTITY_KEY)
+            habit.periodicity = savedInstanceState.getInt(EXTRA_HABIT_PERIODICITY_KEY)
+            habit.color =
+                savedInstanceState.getSerializable(EXTRA_HABIT_COLOR_KEY)!! as HabitColor
         }
     }
 
     private fun initUI(view: View) {
-        habit_name.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-            }
-
+        habit_name.addTextChangedListener(object : CustomTextWatcher() {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                habit!!.name = s.toString()
-            }
-
-            override fun afterTextChanged(s: Editable) {
+                habit.name = s.toString()
             }
         })
-        habit_description.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-            }
-
+        habit_description.addTextChangedListener(object : CustomTextWatcher() {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                habit!!.description = s.toString()
-            }
-
-            override fun afterTextChanged(s: Editable) {
+                habit.description = s.toString()
             }
         })
-        habit_quantity.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-            }
-
+        habit_quantity.addTextChangedListener(object : CustomTextWatcher() {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                habit!!.quantity = s.toString().ifEmpty { "0" }.toInt()
-            }
-
-            override fun afterTextChanged(s: Editable) {
+                habit.quantity = s.toString().ifEmpty { "0" }.toInt()
             }
         })
-        habit_periodicity.addTextChangedListener(object : TextWatcher {
-
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-            }
-
+        habit_periodicity.addTextChangedListener(object : CustomTextWatcher() {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                habit!!.periodicity = s.toString().ifEmpty { "0" }.toInt()
-            }
-
-            override fun afterTextChanged(s: Editable) {
+                habit.periodicity = s.toString().ifEmpty { "0" }.toInt()
             }
         })
 
+        initColorPicker()
         initPrioritySpinner()
         initTypeRadioGroup(view)
-        initColorPicker()
         initSaveButton()
+    }
+
+    private fun initColorPicker() {
+        colorPickAdapter = ColorPickAdapter(HabitColor.values().toList())
+        color_pick_recycler_view.adapter = colorPickAdapter
+        val linearLayoutManager =
+            LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+        color_pick_recycler_view.layoutManager = linearLayoutManager
     }
 
     private fun initPrioritySpinner() {
@@ -132,7 +205,6 @@ class HabitFragment : Fragment() {
 
         habit_priority.adapter = adapter
         habit_priority.setSelection(0)
-
         habit_priority.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
@@ -143,7 +215,7 @@ class HabitFragment : Fragment() {
                 position: Int,
                 id: Long
             ) {
-                habit!!.priority = HabitPriority.values()[position]
+                habit.priority = HabitPriority.values()[position]
             }
         }
     }
@@ -160,92 +232,14 @@ class HabitFragment : Fragment() {
         habit_type.setOnCheckedChangeListener { _, checkedId ->
             val selectedRadioButton = view.findViewById<RadioButton>(checkedId)
             val typeIndex = HabitType.values().indexOfFirst { it.name == selectedRadioButton.text }
-            habit!!.type = HabitType.values()[typeIndex]
-        }
-    }
-
-    private fun initColorPicker() {
-        HabitColor.values().forEachIndexed { index, habitColor ->
-            run {
-                val previousColorId: Int = when (index) {
-                    0 -> habitColor.colorId
-                    else -> {
-                        HabitColor.values()[index - 1].colorId
-                    }
-                }
-                val nextColorId = when (index) {
-                    HabitColor.values().size - 1 -> habitColor.colorId
-                    else -> {
-                        HabitColor.values()[index + 1].colorId
-                    }
-                }
-
-                val previousColor: Int = resources.getColor(previousColorId)
-                val nextColor: Int = resources.getColor(nextColorId)
-                val currentColor: Int = resources.getColor(habitColor.colorId)
-
-                val drawable = GradientDrawable(
-                    GradientDrawable.Orientation.LEFT_RIGHT,
-                    intArrayOf(
-                        ColorUtils.blendARGB(previousColor, currentColor, 0.5f),
-                        currentColor,
-                        ColorUtils.blendARGB(currentColor, nextColor, 0.5f)
-                    )
-                ).apply {
-                    shape = GradientDrawable.RECTANGLE
-                    gradientType = GradientDrawable.LINEAR_GRADIENT
-                }
-
-                val colorButton = Button(activity).apply {
-                    background = GradientDrawable().apply {
-                        setColor(currentColor)
-                        cornerRadius = 5f
-                        setStroke(1, resources.getColor(R.color.grey))
-                    }
-                    val scale: Float = resources.displayMetrics.density
-
-                    val pxWidth: Int = (70 * scale + 0.5f).toInt()
-                    val pxHeight: Int = (70 * scale + 0.5f).toInt()
-
-                    layoutParams = LinearLayout.LayoutParams(pxWidth, pxHeight)
-                    setOnClickListener {
-                        current_color_img.setBackgroundColor(currentColor)
-                        habit!!.color = habitColor
-                        current_color_rgb.text =
-                            "r: ${Color.red(currentColor)};\ng: ${Color.green(currentColor)};\nb: ${Color.blue(
-                                currentColor
-                            )};"
-
-                        val hsvArray = floatArrayOf(0f, 0f, 0f)
-                        Color.colorToHSV(currentColor, hsvArray)
-                        current_color_hsv.text =
-                            "h: ${hsvArray[0]};\ns: ${hsvArray[1]};\nv: ${hsvArray[2]};"
-                    }
-                }
-
-                val linearLayout: LinearLayout = LinearLayout(activity).apply {
-                    orientation = LinearLayout.HORIZONTAL
-                    gravity = Gravity.CENTER
-                    val scale: Float = resources.displayMetrics.density
-
-                    val dpWidth: Int = (100 * scale + 0.5f).toInt()
-                    val dpHeight: Int = (100 * scale + 0.5f).toInt()
-                    layoutParams = LinearLayout.LayoutParams(dpWidth, dpHeight)
-                    background = drawable
-                    addView(colorButton)
-                }
-
-                color_picker.addView(linearLayout)
-            }
+            habit.type = HabitType.values()[typeIndex]
         }
     }
 
     private fun initSaveButton() {
         save_habit_button.setOnClickListener {
             run {
-                habit?.let {
-                    HabitRepository.saveHabit(habit!!)
-                }
+                HabitRepository.saveHabit(habit)
                 activity!!.onBackPressed()
             }
         }
@@ -261,28 +255,48 @@ class HabitFragment : Fragment() {
     }
 
     private fun updateUI() {
-        habit_name.setText(habit!!.name)
-        habit_description.setText(habit!!.description)
+        color_pick_recycler_view.post {
+            color_pick_recycler_view.smoothScrollToPosition(HabitColor.values().indexOf(habit.color))
+        }
 
-        val priorityIndex = HabitPriority.values().indexOf(habit!!.priority)
+        habit_name.setText(habit.name)
+        habit_description.setText(habit.description)
+
+        val priorityIndex = HabitPriority.values().indexOf(habit.priority)
         habit_priority.setSelection(priorityIndex)
 
-        val typeIndex = HabitType.values().indexOf(habit!!.type)
+        val typeIndex = HabitType.values().indexOf(habit.type)
         (habit_type.getChildAt(typeIndex) as RadioButton).isChecked = true
 
-        habit_quantity.setText(habit!!.quantity.toString())
-        habit_periodicity.setText(habit!!.periodicity.toString())
+        habit_quantity.setText(habit.quantity.toString())
+        habit_periodicity.setText(habit.periodicity.toString())
 
-        current_color_img.setBackgroundColor(resources.getColor(habit!!.color.colorId))
+        updateColorPicker()
+    }
 
-        current_color_rgb.text =
-            "r: ${Color.red(resources.getColor(habit!!.color.colorId))};\ng: ${Color.green(
-                resources.getColor(habit!!.color.colorId)
-            )};\nb: ${Color.blue(resources.getColor(habit!!.color.colorId))};"
+    private fun updateColorPicker() {
+        current_color_img.setBackgroundColor(
+            ContextCompat.getColor(
+                activity!!,
+                habit.color.colorId
+            )
+        )
+
+        current_color_rgb.text = resources.getString(
+            R.string.rgb_current_color,
+            Color.red(ContextCompat.getColor(activity!!, habit.color.colorId)),
+            Color.green(ContextCompat.getColor(activity!!, habit.color.colorId)),
+            Color.blue(ContextCompat.getColor(activity!!, habit.color.colorId))
+        )
 
         val hsvArray = floatArrayOf(0f, 0f, 0f)
-        Color.colorToHSV(resources.getColor(habit!!.color.colorId), hsvArray)
-        current_color_hsv.text = "h: ${hsvArray[0]};\ns: ${hsvArray[1]};\nv: ${hsvArray[2]};"
+        Color.colorToHSV(ContextCompat.getColor(activity!!, habit.color.colorId), hsvArray)
+        current_color_hsv.text = resources.getString(
+            R.string.hsv_current_color,
+            hsvArray[0],
+            hsvArray[1],
+            hsvArray[2]
+        )
     }
 
     companion object {
@@ -294,17 +308,5 @@ class HabitFragment : Fragment() {
         const val EXTRA_HABIT_QUANTITY_KEY = "extra_habit_quantity_key"
         const val EXTRA_HABIT_PERIODICITY_KEY = "extra_habit_periodicity_key"
         const val EXTRA_HABIT_COLOR_KEY = "extra_habit_color_key"
-
-        fun newInstance(habitId: UUID?): HabitFragment {
-            val fragment = HabitFragment()
-
-            habitId?.let {
-                val bundle = Bundle()
-                bundle.putSerializable(EXTRA_HABIT_ID_KEY, it)
-                fragment.arguments = bundle
-            }
-
-            return fragment
-        }
     }
 }

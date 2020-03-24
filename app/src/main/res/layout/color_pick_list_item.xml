@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/color_pick_list_item_wrapper"
+    android:layout_gravity="center"
+    android:layout_width="100dp"
+    android:layout_height="100dp">
+
+    <Button
+        android:id="@+id/color_pick_list_item_btn"
+        android:layout_gravity="center"
+        android:layout_width="70dp"
+        android:layout_height="70dp"/>
+
+</FrameLayout>

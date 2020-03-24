@@ -23,4 +23,8 @@
         Android app for control and view your habit.
     </string>
     <string name="logo">Логотип</string>
+
+    <string name="rgb_current_color">r: %1$d; \ng: %2$d;\nb: %3$d;</string>
+    <string name="hsv_current_color">r: %1$f; \ng: %2$f;\nb: %3$f;</string>
+
 </resources>

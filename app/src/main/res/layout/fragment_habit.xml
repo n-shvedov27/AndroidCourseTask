@@ -69,9 +69,8 @@
                 android:id="@+id/habit_quantity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="@string/quantity_hint"
                 android:inputType="number"
-                tools:ignore="Autofill" />
+                tools:ignore="Autofill,LabelFor" />
         </LinearLayout>
 
         <LinearLayout
@@ -89,8 +88,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:inputType="number"
-                android:hint="@string/periodicity_hint"
-                tools:ignore="Autofill" />
+                tools:ignore="Autofill,LabelFor" />
         </LinearLayout>
 
         <RelativeLayout
@@ -119,18 +117,25 @@
                 tools:ignore="RelativeOverlap" />
         </RelativeLayout>
 
-        <HorizontalScrollView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+<!--        <HorizontalScrollView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content">-->
 
-            <LinearLayout
-                android:id="@+id/color_picker"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal">
-            </LinearLayout>
-        </HorizontalScrollView>
+<!--            <LinearLayout-->
+<!--                android:id="@+id/color_picker"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:orientation="horizontal">-->
+<!--            </LinearLayout>-->
+<!--        </HorizontalScrollView>-->
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/color_pick_recycler_view"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
         <Button
             android:id="@+id/save_habit_button"
