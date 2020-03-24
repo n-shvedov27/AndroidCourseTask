@@ -1,10 +1,15 @@
+package com.bignerdranch.android.task04.data
 
+import com.bignerdranch.android.task04.data.entity.Habit
+import com.bignerdranch.android.task04.data.entity.HabitColor
+import com.bignerdranch.android.task04.data.entity.HabitPriority
+import com.bignerdranch.android.task04.data.entity.HabitType
 import java.lang.RuntimeException
 import java.util.*
 import kotlin.random.Random
 
 object HabitRepository {
-    public val habitList: MutableList<Habit> = LinkedList()
+    val habitList: MutableList<Habit> = LinkedList()
 
     init {
         for (i in 1..10) {
@@ -20,7 +25,7 @@ object HabitRepository {
         }
     }
 
-    public fun getHabit(habitId: UUID): Habit {
+    fun getHabit(habitId: UUID): Habit {
         for (habit in habitList) {
             if (habit.id == habitId){
                 val copyHabit = Habit()
@@ -36,7 +41,7 @@ object HabitRepository {
                 return copyHabit
             }
         }
-        throw RuntimeException("Habit not found")
+        throw RuntimeException("com.bignerdranch.android.task04.data.entity.Habit not found")
     }
 
     fun saveHabit(habit: Habit) {

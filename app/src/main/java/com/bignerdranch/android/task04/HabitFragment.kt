@@ -1,9 +1,9 @@
 package com.bignerdranch.android.task04
 
-import Habit
-import HabitColor
-import HabitPriority
-import HabitType
+import com.bignerdranch.android.task04.data.entity.Habit
+import com.bignerdranch.android.task04.data.entity.HabitColor
+import com.bignerdranch.android.task04.data.entity.HabitPriority
+import com.bignerdranch.android.task04.data.entity.HabitType
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
@@ -16,6 +16,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.core.graphics.ColorUtils
+import com.bignerdranch.android.task04.data.HabitRepository
 import kotlinx.android.synthetic.main.fragment_habit.*
 import java.util.*
 
@@ -201,12 +202,12 @@ class HabitFragment : Fragment() {
                         cornerRadius = 5f
                         setStroke(1, resources.getColor(R.color.grey))
                     }
-                    val factor: Float = resources.displayMetrics.density
+                    val scale: Float = resources.displayMetrics.density
 
-                    val dpWidth: Int = (200 ).toInt()
-                    val dpHeight: Int = (200 ).toInt()
+                    val pxWidth: Int = (70 * scale + 0.5f).toInt()
+                    val pxHeight: Int = (70 * scale + 0.5f).toInt()
 
-                    layoutParams = LinearLayout.LayoutParams(dpWidth, dpHeight)
+                    layoutParams = LinearLayout.LayoutParams(pxWidth, pxHeight)
                     setOnClickListener {
                         current_color_img.setBackgroundColor(currentColor)
                         habit!!.color = habitColor
@@ -225,10 +226,10 @@ class HabitFragment : Fragment() {
                 val linearLayout: LinearLayout = LinearLayout(activity).apply {
                     orientation = LinearLayout.HORIZONTAL
                     gravity = Gravity.CENTER
-                    val factor: Float = resources.displayMetrics.density
+                    val scale: Float = resources.displayMetrics.density
 
-                    val dpWidth: Int = (300 ).toInt()
-                    val dpHeight: Int = (300 ).toInt()
+                    val dpWidth: Int = (100 * scale + 0.5f).toInt()
+                    val dpHeight: Int = (100 * scale + 0.5f).toInt()
                     layoutParams = LinearLayout.LayoutParams(dpWidth, dpHeight)
                     background = drawable
                     addView(colorButton)

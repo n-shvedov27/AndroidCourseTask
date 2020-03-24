@@ -1,8 +1,7 @@
 package com.bignerdranch.android.task04
 
-import Habit
-import HabitType
-import android.content.Intent
+import com.bignerdranch.android.task04.data.entity.Habit
+import com.bignerdranch.android.task04.data.entity.HabitType
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -15,7 +14,10 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bignerdranch.android.task04.data.HabitRepository
+import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.fragment_habit_list.*
+import kotlinx.android.synthetic.main.habit_list_item.*
 
 
 class HabitListFragment : Fragment() {
@@ -57,18 +59,15 @@ class HabitListFragment : Fragment() {
         habit_recycler_view.adapter = habitAdapter
     }
 
-    private inner class HabitHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
-        private val linearLayout: RelativeLayout = itemView.findViewById(R.id.habit_relative_layout)
-        private val name: TextView = itemView.findViewById(R.id.habit_list_item_name)
-        private val description: TextView = itemView.findViewById(R.id.habit_list_item_description)
-        private val priority: TextView = itemView.findViewById(R.id.habit_list_item_priority)
-        private val type: TextView = itemView.findViewById(R.id.habit_list_item_type)
-        private val quantity: TextView = itemView.findViewById(R.id.habit_list_item_quantity)
-        private val periodicity: TextView = itemView.findViewById(R.id.habit_list_item_periodicity)
+    private inner class HabitHolder(override val containerView: View) :
+        RecyclerView.ViewHolder(containerView),
+        View.OnClickListener,
+        LayoutContainer
+    {
         private var habit: Habit? = null
 
         init {
-            itemView.setOnClickListener(this)
+            containerView.setOnClickListener(this)
         }
 
         override fun onClick(v: View) {
@@ -81,13 +80,13 @@ class HabitListFragment : Fragment() {
 
         fun bindCrime(habit: Habit) {
             this.habit = habit
-            name.text = habit.name
-            description.text = habit.description
-            priority.text = habit.priority?.name
-            type.text = habit.type?.name
-            quantity.text = getString(R.string.quantity) + habit.quantity.toString()
-            periodicity.text = getString(R.string.periodicity) + habit.periodicity.toString()
-            linearLayout.setBackgroundColor(resources.getColor(habit.color.colorId))
+            habit_list_item_name.text = habit.name
+            habit_list_item_description.text = habit.description
+            habit_list_item_priority.text = habit.priority?.name
+            habit_list_item_type.text = habit.type?.name
+            habit_list_item_quantity.text = getString(R.string.quantity) + habit.quantity.toString()
+            habit_list_item_periodicity.text = getString(R.string.periodicity) + habit.periodicity.toString()
+            habit_relative_layout.setBackgroundColor(resources.getColor(habit.color.colorId))
         }
     }
 
@@ -95,7 +94,7 @@ class HabitListFragment : Fragment() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HabitHolder {
             val layoutInflater = LayoutInflater.from(activity)
-            val view = layoutInflater.inflate(R.layout.list_item_habit, parent, false)
+            val view = layoutInflater.inflate(R.layout.habit_list_item, parent, false)
             return HabitHolder(view)
         }
 

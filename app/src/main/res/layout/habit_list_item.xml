@@ -2,6 +2,7 @@
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardElevation="4dp"
@@ -32,15 +33,14 @@
         <TextView
             android:id="@+id/habit_list_item_priority"
             android:layout_alignParentEnd="true"
-
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            tools:ignore="RelativeOverlap" />
 
         <TextView
             android:id="@+id/habit_list_item_type"
             android:layout_below="@id/habit_list_item_priority"
             android:layout_alignEnd="@id/habit_list_item_priority"
-
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -51,15 +51,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-
         <TextView
             android:id="@+id/habit_list_item_periodicity"
             android:layout_below="@id/habit_list_item_quantity"
             android:layout_alignEnd="@id/habit_list_item_quantity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-
-
-
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

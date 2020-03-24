@@ -22,4 +22,5 @@
         \n
         Android app for control and view your habit.
     </string>
+    <string name="logo">Логотип</string>
 </resources>

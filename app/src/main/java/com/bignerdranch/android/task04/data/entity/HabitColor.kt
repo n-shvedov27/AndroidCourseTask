@@ -1,4 +1,4 @@
-
+package com.bignerdranch.android.task04.data.entity
 import com.bignerdranch.android.task04.R
 
 
