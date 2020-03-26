@@ -8,8 +8,8 @@
     <string name="name_hint">Имя</string>
     <string name="quantity_hint">Количество</string>
     <string name="periodicity_hint">Периодичность</string>
-    <string name="quantity">Кол-во: </string>
-    <string name="periodicity">Периодичность: </string>
+    <string name="quantity">Кол-во: %1$d</string>
+    <string name="periodicity">Периодичность: %1$d</string>
     <string name="save_habit">Сохранить</string>
     <string name="menu_title1">title 1</string>
     <string name="menu_title2">title 2</string>

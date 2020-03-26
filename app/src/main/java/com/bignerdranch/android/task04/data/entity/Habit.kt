@@ -8,6 +8,6 @@ class Habit {
     var type: HabitType = HabitType.Good
     var quantity: Int = 0
     var periodicity: Int = 0
-    var color: HabitColor = HabitColor.AQUA
+    var color: HabitColor = HabitColor.RED
     var id: UUID = UUID.randomUUID()
 }

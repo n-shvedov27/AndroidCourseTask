@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.fragment_habit_view_pager.*
 
 class HabitViewPagerFragment : Fragment() {
 
-    lateinit var navController: NavController
+    private lateinit var navController: NavController
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

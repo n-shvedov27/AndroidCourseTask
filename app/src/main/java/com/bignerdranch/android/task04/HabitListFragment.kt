@@ -7,8 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.RelativeLayout
-import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -32,9 +31,8 @@ class HabitListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view: View = inflater.inflate(R.layout.fragment_habit_list, container, false)
-
         val crimeRecyclerView = view.findViewById(R.id.habit_recycler_view) as RecyclerView
-        crimeRecyclerView.setLayoutManager(LinearLayoutManager(activity))
+        crimeRecyclerView.layoutManager = LinearLayoutManager(activity)
 
         return view
     }
@@ -82,11 +80,11 @@ class HabitListFragment : Fragment() {
             this.habit = habit
             habit_list_item_name.text = habit.name
             habit_list_item_description.text = habit.description
-            habit_list_item_priority.text = habit.priority?.name
-            habit_list_item_type.text = habit.type?.name
-            habit_list_item_quantity.text = getString(R.string.quantity) + habit.quantity.toString()
-            habit_list_item_periodicity.text = getString(R.string.periodicity) + habit.periodicity.toString()
-            habit_relative_layout.setBackgroundColor(resources.getColor(habit.color.colorId))
+            habit_list_item_priority.text = habit.priority.name
+            habit_list_item_type.text = habit.type.name
+            habit_list_item_quantity.text = getString(R.string.quantity, habit.quantity)
+            habit_list_item_periodicity.text = getString(R.string.periodicity, habit.periodicity)
+            habit_relative_layout.setBackgroundColor(ContextCompat.getColor(activity!!, habit.color.colorId))
         }
     }
 
