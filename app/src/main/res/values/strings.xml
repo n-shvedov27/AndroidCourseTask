@@ -26,5 +26,8 @@
 
     <string name="rgb_current_color">r: %1$d; \ng: %2$d;\nb: %3$d;</string>
     <string name="hsv_current_color">r: %1$f; \ng: %2$f;\nb: %3$f;</string>
+    <string name="habit_fragment_label">Привычка</string>
+    <string name="app_info_fragment_label">О приложении</string>
+    <string name="habit_view_pager_fragment_label">Привычки</string>
 
 </resources>

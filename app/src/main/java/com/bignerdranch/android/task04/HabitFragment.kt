@@ -134,27 +134,27 @@ class HabitFragment : Fragment() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putString(EXTRA_HABIT_NAME_KEY, habit.name)
-        outState.putString(EXTRA_HABIT_DESCRIPTION_KEY, habit.description)
-        outState.putSerializable(EXTRA_HABIT_TYPE_KEY, habit.type)
-        outState.putSerializable(EXTRA_HABIT_PRIORITY_KEY, habit.priority)
-        outState.putInt(EXTRA_HABIT_PERIODICITY_KEY, habit.periodicity)
-        outState.putInt(EXTRA_HABIT_QUANTITY_KEY, habit.quantity)
-        outState.putSerializable(EXTRA_HABIT_COLOR_KEY, habit.color)
+//        outState.putString(EXTRA_HABIT_NAME_KEY, habit.name)
+//        outState.putString(EXTRA_HABIT_DESCRIPTION_KEY, habit.description)
+//        outState.putSerializable(EXTRA_HABIT_TYPE_KEY, habit.type)
+//        outState.putSerializable(EXTRA_HABIT_PRIORITY_KEY, habit.priority)
+//        outState.putInt(EXTRA_HABIT_PERIODICITY_KEY, habit.periodicity)
+//        outState.putInt(EXTRA_HABIT_QUANTITY_KEY, habit.quantity)
+//        outState.putSerializable(EXTRA_HABIT_COLOR_KEY, habit.color)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         if (savedInstanceState != null) {
-            habit.name = savedInstanceState.getString(EXTRA_HABIT_NAME_KEY)!!
-            habit.description = savedInstanceState.getString(EXTRA_HABIT_DESCRIPTION_KEY)!!
-            habit.type = savedInstanceState.getSerializable(EXTRA_HABIT_TYPE_KEY)!! as HabitType
-            habit.priority =
-                savedInstanceState.getSerializable(EXTRA_HABIT_PRIORITY_KEY)!! as HabitPriority
-            habit.quantity = savedInstanceState.getInt(EXTRA_HABIT_QUANTITY_KEY)
-            habit.periodicity = savedInstanceState.getInt(EXTRA_HABIT_PERIODICITY_KEY)
-            habit.color =
-                savedInstanceState.getSerializable(EXTRA_HABIT_COLOR_KEY)!! as HabitColor
+//            habit.name = savedInstanceState.getString(EXTRA_HABIT_NAME_KEY)!!
+//            habit.description = savedInstanceState.getString(EXTRA_HABIT_DESCRIPTION_KEY)!!
+//            habit.type = savedInstanceState.getSerializable(EXTRA_HABIT_TYPE_KEY)!! as HabitType
+//            habit.priority =
+//                savedInstanceState.getSerializable(EXTRA_HABIT_PRIORITY_KEY)!! as HabitPriority
+//            habit.quantity = savedInstanceState.getInt(EXTRA_HABIT_QUANTITY_KEY)
+//            habit.periodicity = savedInstanceState.getInt(EXTRA_HABIT_PERIODICITY_KEY)
+//            habit.color =
+//                savedInstanceState.getSerializable(EXTRA_HABIT_COLOR_KEY)!! as HabitColor
         }
     }
 

@@ -11,6 +11,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bignerdranch.android.task04.data.HabitRepository
@@ -39,7 +40,7 @@ class HabitListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        navController = Navigation.findNavController(view)
+        navController = findNavController()
 
         arguments?.let {
             habitType = it.getSerializable(HABIT_TYPE) as HabitType
@@ -70,7 +71,7 @@ class HabitListFragment : Fragment() {
 
         override fun onClick(v: View) {
             val bundle = bundleOf(HabitFragment.EXTRA_HABIT_ID_KEY to habit?.id )
-            navController.navigate(
+            findNavController().navigate(
                 R.id.action_habitViewPagerFragment_to_habitFragment,
                 bundle
             )

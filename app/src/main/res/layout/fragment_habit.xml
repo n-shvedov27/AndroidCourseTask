@@ -26,7 +26,7 @@
             android:id="@+id/habit_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/back"
+            android:background="@drawable/ic_edit_text_border"
             android:gravity="top|start"
             android:hint="@string/description_hint"
             android:inputType="textMultiLine"
@@ -132,9 +132,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-
             android:text="@string/save_habit"
-            android:textColor="@color/white"
             android:textSize="15sp"
             app:layout_constraintTop_toBottomOf="@+id/color_pick_recycler_view" />
     </androidx.constraintlayout.widget.ConstraintLayout>

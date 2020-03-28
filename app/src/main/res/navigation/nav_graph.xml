@@ -8,12 +8,12 @@
     <fragment
         android:id="@+id/habitFragment"
         android:name="com.bignerdranch.android.task04.HabitFragment"
-        android:label="fragment_habit"
+        android:label="@string/habit_fragment_label"
         tools:layout="@layout/fragment_habit" />
     <fragment
         android:id="@+id/habitViewPagerFragment"
         android:name="com.bignerdranch.android.task04.HabitViewPagerFragment"
-        android:label="fragment_habit_view_pager"
+        android:label="@string/habit_view_pager_fragment_label"
         tools:layout="@layout/fragment_habit_view_pager" >
         <action
             android:id="@+id/action_habitViewPagerFragment_to_habitFragment"
@@ -22,6 +22,6 @@
     <fragment
         android:id="@+id/appInfoFragment"
         android:name="com.bignerdranch.android.task04.AppInfoFragment"
-        android:label="fragment_app_info"
+        android:label="@string/app_info_fragment_label"
         tools:layout="@layout/fragment_app_info" />
 </navigation>
