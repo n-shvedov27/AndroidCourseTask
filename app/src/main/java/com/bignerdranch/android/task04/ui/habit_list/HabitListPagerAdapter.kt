@@ -1,9 +1,10 @@
-package com.bignerdranch.android.task04
+package com.bignerdranch.android.task04.ui.habit_list
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.bignerdranch.android.task04.data.entity.HabitType
+import com.bignerdranch.android.task04.ui.habit_list.HabitListFragment
 
 class HabitListPagerAdapter(
     fragmentManager: FragmentManager

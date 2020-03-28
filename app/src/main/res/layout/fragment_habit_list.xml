@@ -3,10 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HabitListFragment">
+    tools:context=".ui.habit_list.HabitListFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/habit_recycler_view"
+        android:id="@+id/habitRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 </FrameLayout>

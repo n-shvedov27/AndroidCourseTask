@@ -14,7 +14,7 @@
         android:padding="10dp">
 
         <EditText
-            android:id="@+id/habit_name"
+            android:id="@+id/habitName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/name_hint"
@@ -23,7 +23,7 @@
             tools:ignore="Autofill" />
 
         <EditText
-            android:id="@+id/habit_description"
+            android:id="@+id/habitDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/ic_edit_text_border"
@@ -37,24 +37,24 @@
             android:scrollbars="vertical"
             android:scrollHorizontally="false"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            app:layout_constraintTop_toBottomOf="@+id/habit_name"
+            app:layout_constraintTop_toBottomOf="@+id/habitName"
             tools:ignore="Autofill"
             tools:layout_editor_absoluteX="10dp" />
 
         <Spinner
-            android:id="@+id/habit_priority"
+            android:id="@+id/habitPriority"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/habit_description" />
+            app:layout_constraintTop_toBottomOf="@+id/habitDescription" />
 
         <RadioGroup
-            android:id="@+id/habit_type"
+            android:id="@+id/habitType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/habit_priority"
-            app:layout_constraintTop_toBottomOf="@+id/habit_description" />
+            app:layout_constraintStart_toEndOf="@+id/habitPriority"
+            app:layout_constraintTop_toBottomOf="@+id/habitDescription" />
 
         <TextView
             android:id="@+id/textView5"
@@ -62,7 +62,7 @@
             android:layout_height="wrap_content"
             android:text="@string/quantity_hint"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/habit_type" />
+            app:layout_constraintTop_toBottomOf="@+id/habitType" />
 
         <TextView
             android:id="@+id/textView6"
@@ -79,11 +79,11 @@
             android:layout_height="wrap_content"
             android:inputType="number"
             app:layout_constraintBaseline_toBaselineOf="@+id/textView5"
-            app:layout_constraintStart_toStartOf="@+id/habit_periodicity"
+            app:layout_constraintStart_toStartOf="@+id/habitPeriodicity"
             tools:ignore="Autofill,LabelFor" />
 
         <EditText
-            android:id="@+id/habit_periodicity"
+            android:id="@+id/habitPeriodicity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="number"
@@ -92,48 +92,60 @@
             tools:ignore="Autofill,LabelFor" />
 
         <TextView
-            android:id="@+id/current_color_rgb"
+            android:id="@+id/currentColorRgb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@+id/color_pick_recycler_view"
+            app:layout_constraintBottom_toTopOf="@+id/colorPickRecyclerView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/current_color_img" />
+            app:layout_constraintStart_toEndOf="@+id/currentColorImg" />
 
         <ImageView
-            android:id="@+id/current_color_img"
+            android:id="@+id/currentColorImg"
             android:layout_width="100dp"
             android:layout_height="50dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/habit_periodicity"
+            app:layout_constraintTop_toBottomOf="@+id/habitPeriodicity"
+            app:layout_constraintVertical_bias="0.9"
+            app:layout_constraintBottom_toTopOf="@+id/colorPickRecyclerView"
             tools:ignore="ContentDescription" />
 
         <TextView
-            android:id="@+id/current_color_hsv"
+            android:id="@+id/currentColorHsv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@+id/color_pick_recycler_view"
-            app:layout_constraintEnd_toStartOf="@+id/current_color_img"
+            app:layout_constraintBottom_toTopOf="@+id/colorPickRecyclerView"
+            app:layout_constraintEnd_toStartOf="@+id/currentColorImg"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/color_pick_recycler_view"
+            android:id="@+id/colorPickRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@+id/current_color_img" />
+            app:layout_constraintBottom_toTopOf="@+id/saveHabitButton" />
+
+<!--        <Button-->
+<!--            android:id="@+id/saveHabitButton"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            android:text="@string/save_habit"-->
+<!--            android:textSize="15sp"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintVertical_bias="0.9"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/colorPickRecyclerView" />-->
 
         <Button
-            android:id="@+id/save_habit_button"
+            android:id="@+id/saveHabitButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="@string/save_habit"
             android:textSize="15sp"
-            app:layout_constraintTop_toBottomOf="@+id/color_pick_recycler_view" />
+            app:layout_constraintBottom_toBottomOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

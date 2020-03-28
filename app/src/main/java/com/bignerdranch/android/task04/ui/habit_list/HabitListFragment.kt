@@ -1,4 +1,4 @@
-package com.bignerdranch.android.task04
+package com.bignerdranch.android.task04.ui.habit_list
 
 import com.bignerdranch.android.task04.data.entity.Habit
 import com.bignerdranch.android.task04.data.entity.HabitType
@@ -10,10 +10,11 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.navigation.NavController
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bignerdranch.android.task04.ui.habit_fragment.HabitFragment
+import com.bignerdranch.android.task04.R
 import com.bignerdranch.android.task04.data.HabitRepository
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.fragment_habit_list.*
@@ -32,7 +33,7 @@ class HabitListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view: View = inflater.inflate(R.layout.fragment_habit_list, container, false)
-        val crimeRecyclerView = view.findViewById(R.id.habit_recycler_view) as RecyclerView
+        val crimeRecyclerView = view.findViewById(R.id.habitRecyclerView) as RecyclerView
         crimeRecyclerView.layoutManager = LinearLayoutManager(activity)
 
         return view
@@ -55,7 +56,7 @@ class HabitListFragment : Fragment() {
         val habits = HabitRepository.habitList.filter { habit -> habit.type == habitType }
 
         habitAdapter = HabitAdapter(habits)
-        habit_recycler_view.adapter = habitAdapter
+        habitRecyclerView.adapter = habitAdapter
     }
 
     private inner class HabitHolder(override val containerView: View) :
@@ -79,13 +80,13 @@ class HabitListFragment : Fragment() {
 
         fun bindCrime(habit: Habit) {
             this.habit = habit
-            habit_list_item_name.text = habit.name
-            habit_list_item_description.text = habit.description
-            habit_list_item_priority.text = habit.priority.name
-            habit_list_item_type.text = habit.type.name
-            habit_list_item_quantity.text = getString(R.string.quantity, habit.quantity)
-            habit_list_item_periodicity.text = getString(R.string.periodicity, habit.periodicity)
-            habit_relative_layout.setBackgroundColor(ContextCompat.getColor(activity!!, habit.color.colorId))
+            habitListItemName.text = habit.name
+            habitListItemDescription.text = habit.description
+            habitListItemPriority.text = habit.priority.name
+            habitListItemType.text = habit.type.name
+            habitListItemQuantity.text = getString(R.string.quantity, habit.quantity)
+            habitListItemPeriodicity.text = getString(R.string.periodicity, habit.periodicity)
+            habitRelativeLayout.setBackgroundColor(ContextCompat.getColor(activity!!, habit.color.colorId))
         }
     }
 
@@ -113,7 +114,8 @@ class HabitListFragment : Fragment() {
         private const val HABIT_TYPE = "habit_type"
 
         fun newInstance(habitType: HabitType) : HabitListFragment {
-            val fragment = HabitListFragment()
+            val fragment =
+                HabitListFragment()
             val bundle = Bundle()
 
             bundle.putSerializable(HABIT_TYPE, habitType)

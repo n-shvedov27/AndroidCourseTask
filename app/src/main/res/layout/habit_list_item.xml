@@ -14,13 +14,13 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:padding="10dp"
-        android:id="@+id/habit_relative_layout"
+        android:id="@+id/habitRelativeLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/habit_list_item_name"
+            android:id="@+id/habitListItemName"
             android:textSize="30sp"
             android:textStyle="bold"
             android:layout_width="wrap_content"
@@ -29,14 +29,14 @@
             app:layout_constraintStart_toStartOf="parent"/>
 
         <TextView
-            android:id="@+id/habit_list_item_description"
+            android:id="@+id/habitListItemDescription"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/habit_list_item_name" />
+            app:layout_constraintTop_toBottomOf="@+id/habitListItemName" />
 
         <TextView
-            android:id="@+id/habit_list_item_priority"
+            android:id="@+id/habitListItemPriority"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:ignore="RelativeOverlap"
@@ -44,22 +44,22 @@
             app:layout_constraintEnd_toEndOf="parent"/>
 
         <TextView
-            android:id="@+id/habit_list_item_type"
+            android:id="@+id/habitListItemType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/habit_list_item_priority"
+            app:layout_constraintTop_toBottomOf="@+id/habitListItemPriority"
             app:layout_constraintEnd_toEndOf="parent" />
 
         <TextView
-            android:id="@+id/habit_list_item_quantity"
-            app:layout_constraintTop_toBottomOf="@+id/habit_list_item_type"
+            android:id="@+id/habitListItemQuantity"
+            app:layout_constraintTop_toBottomOf="@+id/habitListItemType"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <TextView
-            android:id="@+id/habit_list_item_periodicity"
-            app:layout_constraintTop_toBottomOf="@+id/habit_list_item_quantity"
+            android:id="@+id/habitListItemPeriodicity"
+            app:layout_constraintTop_toBottomOf="@+id/habitListItemQuantity"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />

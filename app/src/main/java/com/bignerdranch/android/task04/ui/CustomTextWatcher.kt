@@ -1,4 +1,4 @@
-package com.bignerdranch.android.task04
+package com.bignerdranch.android.task04.ui
 
 import android.text.Editable
 import android.text.TextWatcher

@@ -1,4 +1,4 @@
-package com.bignerdranch.android.task04
+package com.bignerdranch.android.task04.ui.habit_list
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import com.bignerdranch.android.task04.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.fragment_habit_view_pager.*
 
@@ -38,7 +39,7 @@ class HabitViewPagerFragment : Fragment() {
 
     private fun initFloatActionButton(view: View) {
         val floatingActionButton =
-            view.findViewById(R.id.floating_action_button) as FloatingActionButton
+            view.findViewById(R.id.floatingActionButton) as FloatingActionButton
         floatingActionButton.setOnClickListener{
             navController.navigate(R.id.action_habitViewPagerFragment_to_habitFragment)
         }
