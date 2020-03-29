@@ -1,4 +1,4 @@
-package com.bignerdranch.android.task04.ui.app_info
+package com.bignerdranch.android.task04.ui.appinfo
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

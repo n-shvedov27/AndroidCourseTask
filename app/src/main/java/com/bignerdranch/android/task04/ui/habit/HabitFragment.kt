@@ -1,4 +1,4 @@
-package com.bignerdranch.android.task04.ui.habit_fragment
+package com.bignerdranch.android.task04.ui.habit
 
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable

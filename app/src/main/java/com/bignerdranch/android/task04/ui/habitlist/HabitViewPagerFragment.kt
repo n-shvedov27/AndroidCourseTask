@@ -1,4 +1,4 @@
-package com.bignerdranch.android.task04.ui.habit_list
+package com.bignerdranch.android.task04.ui.habitlist
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,11 +8,14 @@ import android.view.ViewGroup
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.bignerdranch.android.task04.R
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import kotlinx.android.synthetic.main.bottom_sheet.*
+import kotlinx.android.synthetic.main.bottom_sheet_fragment.*
 import kotlinx.android.synthetic.main.fragment_habit_view_pager.*
 
 
 class HabitViewPagerFragment : Fragment() {
+    private lateinit var sheetBehavior: BottomSheetBehavior<View>
 
     private lateinit var navController: NavController
 
@@ -28,18 +31,24 @@ class HabitViewPagerFragment : Fragment() {
 
         navController = Navigation.findNavController(view)
 
-        initFloatActionButton(view)
-
         ordersPagerViewPager.adapter =
-            HabitListPagerAdapter(
+            com.bignerdranch.android.task04.ui.habitlist.HabitListPagerAdapter(
                 childFragmentManager
             )
         ordersPagerTabLayout.setupWithViewPager(ordersPagerViewPager)
+
+        sheetBehavior = BottomSheetBehavior.from(bottom_sheet)
+
+        sheetBehavior.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+            }
+            override fun onStateChanged(view: View, newState: Int) {
+            }
+        })
+        initFloatActionButton()
     }
 
-    private fun initFloatActionButton(view: View) {
-        val floatingActionButton =
-            view.findViewById(R.id.floatingActionButton) as FloatingActionButton
+    private fun initFloatActionButton() {
         floatingActionButton.setOnClickListener{
             navController.navigate(R.id.action_habitViewPagerFragment_to_habitFragment)
         }

@@ -1,4 +1,4 @@
-package com.bignerdranch.android.task04.ui.habit_list
+package com.bignerdranch.android.task04.ui.habitlist
 
 import com.bignerdranch.android.task04.data.entity.Habit
 import com.bignerdranch.android.task04.data.entity.HabitType
@@ -9,13 +9,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bignerdranch.android.task04.ui.habit_fragment.HabitFragment
+import com.bignerdranch.android.task04.ui.habit.HabitFragment
 import com.bignerdranch.android.task04.R
-import com.bignerdranch.android.task04.data.HabitRepository
+import com.bignerdranch.android.task04.viewmodels.habitlist.HabitListViewModel
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.fragment_habit_list.*
 import kotlinx.android.synthetic.main.habit_list_item.*
@@ -23,40 +25,53 @@ import kotlinx.android.synthetic.main.habit_list_item.*
 
 class HabitListFragment : Fragment() {
     private var habitAdapter: HabitAdapter? = null
-    private var habitType: HabitType? = null
+    private lateinit var habitType: HabitType
+
     lateinit var navController: NavController
 
+    private lateinit var habitListViewModel: HabitListViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        navController = findNavController()
+
+        habitType = arguments!!.getSerializable(HABIT_TYPE) as HabitType
+
+        habitListViewModel = ViewModelProvider(this, object : ViewModelProvider.Factory {
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                return HabitListViewModel() as T
+            }
+        }).get(HabitListViewModel::class.java)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val view: View = inflater.inflate(R.layout.fragment_habit_list, container, false)
-        val crimeRecyclerView = view.findViewById(R.id.habitRecyclerView) as RecyclerView
-        crimeRecyclerView.layoutManager = LinearLayoutManager(activity)
+    ): View? =
+        inflater.inflate(R.layout.fragment_habit_list, container, false)
 
-        return view
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        navController = findNavController()
 
-        arguments?.let {
-            habitType = it.getSerializable(HABIT_TYPE) as HabitType
-        }
+        habitListViewModel.habitsByType[habitType]?.observe(viewLifecycleOwner, Observer { updateUI(it) })
     }
+
     override fun onResume() {
         super.onResume()
-        updateUI()
+        habitListViewModel.updateHabits(habitType)
     }
 
-    private fun updateUI() {
-        val habits = HabitRepository.habitList.filter { habit -> habit.type == habitType }
-
-        habitAdapter = HabitAdapter(habits)
-        habitRecyclerView.adapter = habitAdapter
+    private fun updateUI(habits: List<Habit>) {
+        habitAdapter?.let {
+            it.habits = habits
+            habitRecyclerView.adapter = habitAdapter
+        } ?: run {
+            habitAdapter =  HabitAdapter(habits);
+            habitRecyclerView.adapter = habitAdapter
+        }
     }
 
     private inner class HabitHolder(override val containerView: View) :
@@ -90,7 +105,9 @@ class HabitListFragment : Fragment() {
         }
     }
 
-    private inner class HabitAdapter(var habits: List<Habit>) : RecyclerView.Adapter<HabitHolder>() {
+    private inner class HabitAdapter(var habits: List<Habit>) :
+        RecyclerView.Adapter<HabitHolder>()
+    {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HabitHolder {
             val layoutInflater = LayoutInflater.from(activity)
@@ -108,11 +125,8 @@ class HabitListFragment : Fragment() {
         }
     }
 
-
-
     companion object {
         private const val HABIT_TYPE = "habit_type"
-
         fun newInstance(habitType: HabitType) : HabitListFragment {
             val fragment =
                 HabitListFragment()
