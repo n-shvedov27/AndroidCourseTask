@@ -27,7 +27,7 @@ class HabitListFragment : Fragment() {
     private var habitAdapter: HabitAdapter? = null
     private lateinit var habitType: HabitType
 
-    lateinit var navController: NavController
+    private lateinit var navController: NavController
 
     private lateinit var habitListViewModel: HabitListViewModel
 
@@ -38,7 +38,8 @@ class HabitListFragment : Fragment() {
 
         habitType = arguments!!.getSerializable(HABIT_TYPE) as HabitType
 
-        habitListViewModel = ViewModelProvider(this, object : ViewModelProvider.Factory {
+        habitListViewModel = ViewModelProvider(activity!!, object : ViewModelProvider.Factory {
+            @Suppress("UNCHECKED_CAST")
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
                 return HabitListViewModel() as T
             }
@@ -69,7 +70,7 @@ class HabitListFragment : Fragment() {
             it.habits = habits
             habitRecyclerView.adapter = habitAdapter
         } ?: run {
-            habitAdapter =  HabitAdapter(habits);
+            habitAdapter =  HabitAdapter(habits)
             habitRecyclerView.adapter = habitAdapter
         }
     }

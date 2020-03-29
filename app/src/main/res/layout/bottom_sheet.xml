@@ -5,7 +5,7 @@
     android:id="@+id/bottom_sheet"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#ffffff"
+    android:background="#E6F6FF"
     android:orientation="vertical"
     android:padding="12dp"
     app:behavior_hideable="false"

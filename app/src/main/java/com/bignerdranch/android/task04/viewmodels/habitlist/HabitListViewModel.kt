@@ -18,24 +18,41 @@ class HabitListViewModel: ViewModel() {
         load()
     }
 
+    public var sortType = SortType.None
+    set(value) {
+        field = value
+        load()
+    }
+
     init {
         load()
     }
 
     private fun load() {
-        HabitType.values().forEach {
-            if (mutableHabitsByTypeLiveData[it] == null) {
-                mutableHabitsByTypeLiveData[it] = MutableLiveData()
-            }
-            mutableHabitsByTypeLiveData[it]?.value = HabitRepository.habitList.filter {
-                    habit -> habit.type == it && habit.name.startsWith(filterPrefix)
+        HabitType.values().forEach {habitType ->
+            run {
+                if (mutableHabitsByTypeLiveData[habitType] == null) {
+                    mutableHabitsByTypeLiveData[habitType] = MutableLiveData()
+                }
+
+                mutableHabitsByTypeLiveData[habitType]?.value =
+                    when (sortType) {
+                        SortType.None -> HabitRepository.habitList.filter { habit -> filter(habit, habitType) }
+                        SortType.Ascending -> HabitRepository.habitList.filter { habit -> filter(habit, habitType) }.sortedBy { it.priority }
+                        SortType.Descending -> HabitRepository.habitList.filter { habit -> filter(habit, habitType) }.sortedByDescending { it.priority }
+                    }
+
             }
         }
     }
 
     public fun updateHabits(habitType: HabitType){
-        mutableHabitsByTypeLiveData[habitType]?.value = HabitRepository.habitList.filter {
-                habit -> habit.type == habitType && habit.name.startsWith(filterPrefix)
-        }
+        mutableHabitsByTypeLiveData[habitType]?.value = HabitRepository.habitList.filter { filter(it, habitType) }
     }
+
+    private fun filter(habit: Habit, habitType: HabitType) = habit.type == habitType && habit.name.startsWith(filterPrefix, true)
+}
+
+enum class SortType{
+    Ascending, Descending, None
 }

@@ -1,61 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:clickable="true"
     android:layout_width="match_parent"
     android:layout_height="160dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:focusable="true">
 
     <TextView
-        android:id="@+id/sort_and_filtering_label"
+        android:id="@+id/sortAndFilteringLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/sort_and_filtering_label"
         android:textSize="22sp"
         android:textStyle="bold"
         app:layout_constraintVertical_chainStyle="spread_inside"
-        app:layout_constraintBottom_toTopOf="@id/sort_label"
+        app:layout_constraintBottom_toTopOf="@id/sortLabel"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/sort_label"
+        android:id="@+id/sortLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/sort_label"
-        app:layout_constraintBottom_toTopOf="@+id/filter_edit_text"
+        app:layout_constraintBottom_toTopOf="@+id/filterEditText"
+        app:layout_constraintEnd_toStartOf="@+id/sortArrowDown"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sort_and_filtering_label" />
+        app:layout_constraintTop_toBottomOf="@+id/sortAndFilteringLabel" />
 
-    <ImageView
-        android:id="@+id/filter_arrow_down"
+    <ImageButton
+        android:id="@+id/sortArrowDown"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:src="@drawable/ic_arrow_downward_black_24dp"
-        app:layout_constraintBottom_toBottomOf="@+id/sort_label"
-        app:layout_constraintStart_toEndOf="@+id/sort_label"
-        app:layout_constraintTop_toTopOf="@+id/sort_label"
-        app:layout_constraintVertical_bias="0.6" />
+        android:background="@drawable/ic_arrow_downward_black_24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/sortLabel"
+        app:layout_constraintEnd_toStartOf="@+id/sortArrowUp"
+        app:layout_constraintStart_toEndOf="@+id/sortLabel"
+        app:layout_constraintTop_toTopOf="@+id/sortLabel"
+        app:layout_constraintVertical_bias="0.6"
+        tools:ignore="ContentDescription" />
 
-    <ImageView
+    <ImageButton
+        android:id="@+id/sortArrowUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/ic_arrow_upward_black_24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/sortArrowDown"
+        app:layout_constraintEnd_toStartOf="@+id/simpleSort"
+        app:layout_constraintStart_toEndOf="@id/sortArrowDown"
+        app:layout_constraintTop_toTopOf="@+id/sortArrowDown"
+        app:layout_constraintVertical_bias="0.0"
+        tools:ignore="ContentDescription" />
 
-        android:layout_marginStart="24dp"
-        android:src="@drawable/ic_arrow_upward_black_24dp"
-        app:layout_constraintBottom_toBottomOf="@+id/filter_arrow_down"
-        app:layout_constraintStart_toEndOf="@id/filter_arrow_down"
-        app:layout_constraintTop_toTopOf="@+id/filter_arrow_down"
-        app:layout_constraintVertical_bias="0.0" />
+    <ImageButton
+        android:id="@+id/simpleSort"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_clear_black"
+        app:layout_constraintBottom_toBottomOf="@+id/sortArrowUp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/sortArrowUp"
+        app:layout_constraintTop_toTopOf="@+id/sortArrowUp"
+        tools:ignore="ContentDescription" />
 
     <EditText
-        android:id="@+id/filter_edit_text"
+        android:id="@+id/filterEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/filter_edit_text_hint"
         app:layout_constraintVertical_chainStyle="spread_inside"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sort_label" />
+        app:layout_constraintTop_toBottomOf="@+id/sortLabel"
+        tools:ignore="Autofill,TextFields" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -136,8 +136,8 @@ class HabitFragment : Fragment() {
         updateUI()
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
+//    override fun onSaveInstanceState(outState: Bundle) {
+//        super.onSaveInstanceState(outState)
 //        outState.putString(EXTRA_HABIT_NAME_KEY, habit.name)
 //        outState.putString(EXTRA_HABIT_DESCRIPTION_KEY, habit.description)
 //        outState.putSerializable(EXTRA_HABIT_TYPE_KEY, habit.type)
@@ -145,11 +145,11 @@ class HabitFragment : Fragment() {
 //        outState.putInt(EXTRA_HABIT_PERIODICITY_KEY, habit.periodicity)
 //        outState.putInt(EXTRA_HABIT_QUANTITY_KEY, habit.quantity)
 //        outState.putSerializable(EXTRA_HABIT_COLOR_KEY, habit.color)
-    }
+//    }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        if (savedInstanceState != null) {
+//    override fun onActivityCreated(savedInstanceState: Bundle?) {
+//        super.onActivityCreated(savedInstanceState)
+//        if (savedInstanceState != null) {
 //            habit.name = savedInstanceState.getString(EXTRA_HABIT_NAME_KEY)!!
 //            habit.description = savedInstanceState.getString(EXTRA_HABIT_DESCRIPTION_KEY)!!
 //            habit.type = savedInstanceState.getSerializable(EXTRA_HABIT_TYPE_KEY)!! as HabitType
@@ -159,8 +159,8 @@ class HabitFragment : Fragment() {
 //            habit.periodicity = savedInstanceState.getInt(EXTRA_HABIT_PERIODICITY_KEY)
 //            habit.color =
 //                savedInstanceState.getSerializable(EXTRA_HABIT_COLOR_KEY)!! as HabitColor
-        }
-    }
+//        }
+//    }
 
     private fun initUI(view: View) {
         habitName.addTextChangedListener(object : CustomTextWatcher() {
@@ -200,7 +200,7 @@ class HabitFragment : Fragment() {
 
     private fun initPrioritySpinner() {
         val priorities = HabitPriority.values().map { it.name }
-        val adapter = ArrayAdapter<String>(
+        val adapter = ArrayAdapter(
             activity!!.baseContext,
             android.R.layout.simple_spinner_item,
             priorities
@@ -305,12 +305,12 @@ class HabitFragment : Fragment() {
 
     companion object {
         const val EXTRA_HABIT_ID_KEY = "extra_habit_id_key"
-        const val EXTRA_HABIT_NAME_KEY = "extra_habit_name_key"
-        const val EXTRA_HABIT_DESCRIPTION_KEY = "extra_habit_description_key"
-        const val EXTRA_HABIT_TYPE_KEY = "extra_habit_type_key"
-        const val EXTRA_HABIT_PRIORITY_KEY = "extra_habit_priority_key"
-        const val EXTRA_HABIT_QUANTITY_KEY = "extra_habit_quantity_key"
-        const val EXTRA_HABIT_PERIODICITY_KEY = "extra_habit_periodicity_key"
-        const val EXTRA_HABIT_COLOR_KEY = "extra_habit_color_key"
+//        const val EXTRA_HABIT_NAME_KEY = "extra_habit_name_key"
+//        const val EXTRA_HABIT_DESCRIPTION_KEY = "extra_habit_description_key"
+//        const val EXTRA_HABIT_TYPE_KEY = "extra_habit_type_key"
+//        const val EXTRA_HABIT_PRIORITY_KEY = "extra_habit_priority_key"
+//        const val EXTRA_HABIT_QUANTITY_KEY = "extra_habit_quantity_key"
+//        const val EXTRA_HABIT_PERIODICITY_KEY = "extra_habit_periodicity_key"
+//        const val EXTRA_HABIT_COLOR_KEY = "extra_habit_color_key"
     }
 }

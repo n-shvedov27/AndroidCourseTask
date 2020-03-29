@@ -10,7 +10,6 @@ import androidx.navigation.Navigation
 import com.bignerdranch.android.task04.R
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.android.synthetic.main.bottom_sheet.*
-import kotlinx.android.synthetic.main.bottom_sheet_fragment.*
 import kotlinx.android.synthetic.main.fragment_habit_view_pager.*
 
 
@@ -31,15 +30,12 @@ class HabitViewPagerFragment : Fragment() {
 
         navController = Navigation.findNavController(view)
 
-        ordersPagerViewPager.adapter =
-            com.bignerdranch.android.task04.ui.habitlist.HabitListPagerAdapter(
-                childFragmentManager
-            )
+        ordersPagerViewPager.adapter = HabitListPagerAdapter(childFragmentManager)
         ordersPagerTabLayout.setupWithViewPager(ordersPagerViewPager)
 
         sheetBehavior = BottomSheetBehavior.from(bottom_sheet)
 
-        sheetBehavior.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+        sheetBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
             }
             override fun onStateChanged(view: View, newState: Int) {
