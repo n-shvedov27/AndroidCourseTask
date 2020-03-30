@@ -32,5 +32,6 @@
     <string name="sort_and_filtering_label">Фильтры и сортировки</string>
     <string name="sort_label">Сортровать по приортету</string>
     <string name="filter_edit_text_hint">Введите фильтр</string>
+    <string name="error_habit_save">Невозможно сохранить привычку</string>
 
 </resources>

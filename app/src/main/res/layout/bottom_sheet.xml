@@ -5,11 +5,11 @@
     android:id="@+id/bottom_sheet"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#E6F6FF"
+    android:background="@drawable/ic_bottom_sheet_border"
     android:orientation="vertical"
     android:padding="12dp"
     app:behavior_hideable="false"
-    app:behavior_peekHeight="50dp"
+    app:behavior_peekHeight="55dp"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
     <androidx.fragment.app.FragmentContainerView

@@ -58,10 +58,6 @@ class HabitListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         habitListViewModel.habitsByType[habitType]?.observe(viewLifecycleOwner, Observer { updateUI(it) })
-    }
-
-    override fun onResume() {
-        super.onResume()
         habitListViewModel.updateHabits(habitType)
     }
 
@@ -69,10 +65,21 @@ class HabitListFragment : Fragment() {
         habitAdapter?.let {
             it.habits = habits
             habitRecyclerView.adapter = habitAdapter
+            it.notifyDataSetChanged()
         } ?: run {
             habitAdapter =  HabitAdapter(habits)
             habitRecyclerView.adapter = habitAdapter
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        val a  =2
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        val a  =2
     }
 
     private inner class HabitHolder(override val containerView: View) :
