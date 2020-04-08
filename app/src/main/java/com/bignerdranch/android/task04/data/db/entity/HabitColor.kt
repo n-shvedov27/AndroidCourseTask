@@ -1,9 +1,9 @@
-package com.bignerdranch.android.task04.data.entity
+package com.bignerdranch.android.task04.data.db.entity
+import androidx.room.TypeConverter
 import com.bignerdranch.android.task04.R
 
 
 enum class HabitColor(val colorId: Int) {
-
     RED(R.color.red),
     ORANGE(R.color.orange),
     OCHRE(R.color.ochre),
@@ -20,5 +20,12 @@ enum class HabitColor(val colorId: Int) {
     PHLOX(R.color.phlox),
     BLUSH(R.color.blush),
     FOLLY(R.color.folly)
+}
 
+class HabitColorConverter {
+    @TypeConverter
+    fun fromColor(value: HabitColor): String = value.name
+
+    @TypeConverter
+    fun toColor(value: String) = enumValueOf<HabitColor>(value)
 }

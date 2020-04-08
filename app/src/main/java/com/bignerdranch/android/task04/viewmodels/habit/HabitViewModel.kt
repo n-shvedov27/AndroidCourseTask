@@ -1,13 +1,14 @@
 package com.bignerdranch.android.task04.viewmodels.habit
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.bignerdranch.android.task04.data.HabitRepository
-import com.bignerdranch.android.task04.data.entity.Habit
-import java.util.*
+import com.bignerdranch.android.task04.data.db.entity.Habit
 
-class HabitViewModel(private val habitId: UUID?): ViewModel() {
+class HabitViewModel(private val habitId: Long?, application: Application) : AndroidViewModel(application) {
+    private val habitRepository: HabitRepository = HabitRepository(application)
     private val mutableHabit: MutableLiveData<Habit> = MutableLiveData()
 
     val habit: LiveData<Habit> = mutableHabit
@@ -17,16 +18,15 @@ class HabitViewModel(private val habitId: UUID?): ViewModel() {
     }
 
     private fun load() {
-        if (habitId == null) {
-            mutableHabit.value = Habit()
-        } else {
-            mutableHabit.value = HabitRepository.getHabit(habitId)
+        habitId?.let {
+            mutableHabit.value = habitRepository.getById(it)
+        } ?: run {
+            val newHabitId = habitRepository.createHabit(Habit())
+            mutableHabit.value = habitRepository.getById(newHabitId)
         }
     }
 
     public fun saveHabit(habit: Habit) {
-
-        mutableHabit.value = habit
-        HabitRepository.saveHabit(habit)
+        habitRepository.updateHabit(habit)
     }
 }

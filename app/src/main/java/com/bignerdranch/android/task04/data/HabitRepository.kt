@@ -1,55 +1,27 @@
 package com.bignerdranch.android.task04.data
 
-import com.bignerdranch.android.task04.data.entity.Habit
-import com.bignerdranch.android.task04.data.entity.HabitColor
-import com.bignerdranch.android.task04.data.entity.HabitPriority
-import com.bignerdranch.android.task04.data.entity.HabitType
-import java.lang.RuntimeException
-import java.util.*
-import kotlin.random.Random
+import android.app.Application
+import androidx.lifecycle.LiveData
+import com.bignerdranch.android.task04.data.db.MyDatabase
+import com.bignerdranch.android.task04.data.db.entity.Habit
+import com.bignerdranch.android.task04.data.db.entity.HabitDao
+import com.bignerdranch.android.task04.data.db.entity.HabitType
+import com.bignerdranch.android.task04.viewmodels.habitlist.SortType
 
-object HabitRepository {
-    val habitList: MutableList<Habit> = LinkedList()
 
-    init {
-        for (i in 1..10) {
-            val habit = Habit()
-            habit.name = "habit$i"
-            habit.description = "desc$i"
-            habit.priority = HabitPriority.HIGH
-            habit.type = if (i%2==0) HabitType.Bad else HabitType.Good
-            habit.quantity = 1
-            habit.periodicity = 2
-            habit.color = HabitColor.values()[Random.nextInt(0, HabitColor.values().size)]
-            habitList.add(habit)
+class HabitRepository(application: Application) {
+    private val habitDao: HabitDao = MyDatabase.getDatabase(application).habitDao()
+
+    fun getAll(habitType: HabitType, prefix: String, sortType: SortType): List<Habit> =
+        when (sortType) {
+            SortType.None -> habitDao.getAllByType(habitType, prefix)
+            SortType.Ascending -> habitDao.getAllByTypeSortByAscPriority(habitType, prefix)
+            SortType.Descending -> habitDao.getAllByTypeSortByDescPriority(habitType, prefix)
         }
-    }
 
-    fun getHabit(habitId: UUID): Habit {
-        for (habit in habitList) {
-            if (habit.id == habitId){
-                val copyHabit = Habit()
-                copyHabit.id = habit.id
-                copyHabit.name = habit.name
-                copyHabit.description = habit.description
-                copyHabit.priority = habit.priority
-                copyHabit.type = habit.type
-                copyHabit.quantity = habit.quantity
-                copyHabit.periodicity = habit.periodicity
-                copyHabit.color = habit.color
+    fun getById(id: Long): Habit? = habitDao.getById(id)
 
-                return copyHabit
-            }
-        }
-        throw RuntimeException("com.bignerdranch.android.task04.data.entity.Habit not found")
-    }
+    fun createHabit(habit: Habit) = habitDao.insert(habit)
 
-    fun saveHabit(habit: Habit) {
-        val habitIndex = habitList.indexOfFirst { it.id == habit.id }
-        if (habitIndex == -1) {
-            habitList.add(habit)
-        } else {
-            habitList[habitIndex] = habit
-        }
-    }
+    fun updateHabit(habit: Habit) = habitDao.update(habit)
 }

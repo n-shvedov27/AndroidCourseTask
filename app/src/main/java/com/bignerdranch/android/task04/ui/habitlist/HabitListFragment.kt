@@ -1,7 +1,5 @@
 package com.bignerdranch.android.task04.ui.habitlist
 
-import com.bignerdranch.android.task04.data.entity.Habit
-import com.bignerdranch.android.task04.data.entity.HabitType
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -17,10 +15,13 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bignerdranch.android.task04.ui.habit.HabitFragment
 import com.bignerdranch.android.task04.R
+import com.bignerdranch.android.task04.data.db.entity.Habit
+import com.bignerdranch.android.task04.data.db.entity.HabitType
 import com.bignerdranch.android.task04.viewmodels.habitlist.HabitListViewModel
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.fragment_habit_list.*
 import kotlinx.android.synthetic.main.habit_list_item.*
+import java.lang.Exception
 
 
 class HabitListFragment : Fragment() {
@@ -41,7 +42,7 @@ class HabitListFragment : Fragment() {
         habitListViewModel = ViewModelProvider(activity!!, object : ViewModelProvider.Factory {
             @Suppress("UNCHECKED_CAST")
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                return HabitListViewModel() as T
+                return HabitListViewModel(activity!!.application) as T
             }
         }).get(HabitListViewModel::class.java)
     }
@@ -57,7 +58,15 @@ class HabitListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        habitListViewModel.habitsByType[habitType]?.observe(viewLifecycleOwner, Observer { updateUI(it) })
+        habitListViewModel.habitsByType[habitType]?.observe(viewLifecycleOwner, Observer {
+            val a = it
+            try {
+                updateUI(it)
+
+            } catch (e: Exception) {
+                val b  =2
+            }
+        })
         habitListViewModel.updateHabits(habitType)
     }
 

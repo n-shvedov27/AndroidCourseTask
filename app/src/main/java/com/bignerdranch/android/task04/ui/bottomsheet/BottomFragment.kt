@@ -21,7 +21,7 @@ class BottomFragment: Fragment() {
         super.onCreate(savedInstanceState)
         habitListViewModel = ViewModelProvider(activity!!, object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                return HabitListViewModel() as T
+                return HabitListViewModel(activity!!.application) as T
             }
         }).get(HabitListViewModel::class.java)
     }

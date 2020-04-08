@@ -17,10 +17,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bignerdranch.android.task04.R
 import com.bignerdranch.android.task04.data.HabitRepository
-import com.bignerdranch.android.task04.data.entity.Habit
-import com.bignerdranch.android.task04.data.entity.HabitColor
-import com.bignerdranch.android.task04.data.entity.HabitPriority
-import com.bignerdranch.android.task04.data.entity.HabitType
+import com.bignerdranch.android.task04.data.db.entity.Habit
+import com.bignerdranch.android.task04.data.db.entity.HabitColor
+import com.bignerdranch.android.task04.data.db.entity.HabitPriority
+import com.bignerdranch.android.task04.data.db.entity.HabitType
 import com.bignerdranch.android.task04.ui.CustomTextWatcher
 import com.bignerdranch.android.task04.viewmodels.habit.HabitViewModel
 import kotlinx.android.synthetic.main.fragment_habit.*
@@ -37,12 +37,12 @@ class HabitFragment : Fragment() {
         habitViewModel = ViewModelProvider(this, object : ViewModelProvider.Factory {
             @Suppress("UNCHECKED_CAST")
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                val habitId: UUID? = arguments?.getSerializable(EXTRA_HABIT_ID_KEY)?.let {
-                    return@let it as UUID
+                val habitId: Long? = arguments?.getSerializable(EXTRA_HABIT_ID_KEY)?.let {
+                    return@let it as Long
                 } ?: run {
                     return@run null
                 }
-                return HabitViewModel(habitId) as T
+                return HabitViewModel(habitId, activity!!.application) as T
             }
         }).get(HabitViewModel::class.java)
     }
