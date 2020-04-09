@@ -79,16 +79,6 @@ class HabitListFragment : Fragment() {
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        val a  =2
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        val a  =2
-    }
-
     private inner class HabitHolder(override val containerView: View) :
         RecyclerView.ViewHolder(containerView),
         View.OnClickListener,
