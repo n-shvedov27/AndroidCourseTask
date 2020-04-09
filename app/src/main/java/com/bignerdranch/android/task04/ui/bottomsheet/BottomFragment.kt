@@ -37,12 +37,15 @@ class BottomFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
         filterEditText.addTextChangedListener(object : CustomTextWatcher() {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                habitListViewModel.filterPrefix = s.toString()
+                habitListViewModel.updateFilter( s.toString() )
             }
         })
 
-        sortArrowDown.setOnClickListener { habitListViewModel.sortType = SortType.Descending }
-        sortArrowUp.setOnClickListener { habitListViewModel.sortType = SortType.Ascending }
-        simpleSort.setOnClickListener { habitListViewModel.sortType = SortType.None }
+        sortArrowDown.setOnClickListener {
+            habitListViewModel.updateSortType(SortType.Descending) }
+        sortArrowUp.setOnClickListener {
+            habitListViewModel.updateSortType(SortType.Descending) }
+        simpleSort.setOnClickListener {
+            habitListViewModel.updateSortType(SortType.Descending) }
     }
 }

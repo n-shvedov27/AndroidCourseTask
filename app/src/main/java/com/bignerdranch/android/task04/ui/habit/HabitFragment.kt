@@ -269,7 +269,7 @@ class HabitFragment : Fragment() {
         saveHabitButton.setOnClickListener {
             run {
                 habit?.let {
-                    habitViewModel.saveHabit(it)
+                    habitViewModel.saveHabit()
                     activity!!.onBackPressed()
                 } ?: run {
                     Toast.makeText(

@@ -21,12 +21,15 @@ class HabitViewModel(private val habitId: Long?, application: Application) : And
         habitId?.let {
             mutableHabit.value = habitRepository.getById(it)
         } ?: run {
-            val newHabitId = habitRepository.createHabit(Habit())
-            mutableHabit.value = habitRepository.getById(newHabitId)
+            mutableHabit.value = Habit()
         }
     }
 
-    public fun saveHabit(habit: Habit) {
-        habitRepository.updateHabit(habit)
+    public fun saveHabit() {
+        if (habit.value!!.id == null) {
+            habitRepository.createHabit(habit.value!!)
+        } else {
+            habitRepository.updateHabit(habit.value!!)
+        }
     }
 }

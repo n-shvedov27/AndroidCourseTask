@@ -12,7 +12,7 @@ import com.bignerdranch.android.task04.viewmodels.habitlist.SortType
 class HabitRepository(application: Application) {
     private val habitDao: HabitDao = MyDatabase.getDatabase(application).habitDao()
 
-    fun getAll(habitType: HabitType, prefix: String, sortType: SortType): List<Habit> =
+    fun getAll(habitType: HabitType, prefix: String, sortType: SortType): LiveData<List<Habit>> =
         when (sortType) {
             SortType.None -> habitDao.getAllByType(habitType, prefix)
             SortType.Ascending -> habitDao.getAllByTypeSortByAscPriority(habitType, prefix)

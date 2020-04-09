@@ -1,5 +1,6 @@
 package com.bignerdranch.android.task04.ui.habitlist
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -47,6 +48,10 @@ class HabitListFragment : Fragment() {
         }).get(HabitListViewModel::class.java)
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -58,16 +63,9 @@ class HabitListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        habitListViewModel.habitsByType[habitType]?.observe(viewLifecycleOwner, Observer {
-            val a = it
-            try {
+        habitListViewModel.habitMediatorLiveData[habitType]?.observe(viewLifecycleOwner, Observer {
                 updateUI(it)
-
-            } catch (e: Exception) {
-                val b  =2
-            }
         })
-        habitListViewModel.updateHabits(habitType)
     }
 
     private fun updateUI(habits: List<Habit>) {
