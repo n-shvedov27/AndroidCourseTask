@@ -24,7 +24,6 @@ abstract class MyDatabase : RoomDatabase() {
                     MyDatabase::class.java,
                     "database"
                 )
-                    .allowMainThreadQueries()
                     .build()
                 return instance!!
             }

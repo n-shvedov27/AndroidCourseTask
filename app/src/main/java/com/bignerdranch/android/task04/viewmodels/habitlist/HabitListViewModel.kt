@@ -30,7 +30,6 @@ class HabitListViewModel(application: Application) : AndroidViewModel(applicatio
         habitSources[habitType] = habitSource
 
         habitMediatorLiveData[habitType]?.addSource(habitSource) {
-            val a = it
             habitMediatorLiveData[habitType]?.value = it
         }
     }

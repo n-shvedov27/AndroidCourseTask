@@ -19,7 +19,7 @@ class HabitRepository(application: Application) {
             SortType.Descending -> habitDao.getAllByTypeSortByDescPriority(habitType, prefix)
         }
 
-    fun getById(id: Long): Habit? = habitDao.getById(id)
+    fun getById(id: Long): LiveData<Habit?> = habitDao.getById(id)
 
     fun createHabit(habit: Habit) = habitDao.insert(habit)
 

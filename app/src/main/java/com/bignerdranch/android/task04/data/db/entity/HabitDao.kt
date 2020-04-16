@@ -18,10 +18,10 @@ interface HabitDao {
     fun getAllByTypeSortByDescPriority(habitType: HabitType, prefix: String): LiveData<List<Habit>>
 
     @Query("SELECT * FROM habit WHERE id = :id")
-    fun getById(id: Long): Habit?
+    fun getById(id: Long): LiveData<Habit?>
 
     @Insert
-    fun insert(employee: Habit): Long
+    fun insert(employee: Habit)
 
     @Update
     fun update(employee: Habit)

@@ -58,6 +58,7 @@ class HabitFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         habitViewModel.habit.observe(viewLifecycleOwner, Observer {
             habit = it
+            updateUI()
         })
         initUI(view)
     }
@@ -156,10 +157,10 @@ class HabitFragment : Fragment() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        updateUI()
-    }
+//    override fun onResume() {
+//        super.onResume()
+//        updateUI()
+//    }
 
 //    override fun onSaveInstanceState(outState: Bundle) {
 //        super.onSaveInstanceState(outState)
