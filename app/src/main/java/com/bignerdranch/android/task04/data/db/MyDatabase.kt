@@ -4,8 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.bignerdranch.android.task04.data.db.entity.Habit
-import com.bignerdranch.android.task04.data.db.entity.HabitDao
+import com.bignerdranch.android.task04.data.entity.Habit
 
 
 @Database(entities = [Habit::class], version = 1)

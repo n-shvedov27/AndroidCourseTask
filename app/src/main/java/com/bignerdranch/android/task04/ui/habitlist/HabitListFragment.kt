@@ -16,13 +16,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bignerdranch.android.task04.ui.habit.HabitFragment
 import com.bignerdranch.android.task04.R
-import com.bignerdranch.android.task04.data.db.entity.Habit
-import com.bignerdranch.android.task04.data.db.entity.HabitType
+import com.bignerdranch.android.task04.data.entity.Habit
+import com.bignerdranch.android.task04.data.entity.HabitType
 import com.bignerdranch.android.task04.viewmodels.habitlist.HabitListViewModel
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.fragment_habit_list.*
 import kotlinx.android.synthetic.main.habit_list_item.*
-import java.lang.Exception
 
 
 class HabitListFragment : Fragment() {
@@ -91,7 +90,7 @@ class HabitListFragment : Fragment() {
         }
 
         override fun onClick(v: View) {
-            val bundle = bundleOf(HabitFragment.EXTRA_HABIT_ID_KEY to habit?.id )
+            val bundle = bundleOf(HabitFragment.EXTRA_HABIT_ID_KEY to habit?.uid )
             findNavController().navigate(
                 R.id.action_habitViewPagerFragment_to_habitFragment,
                 bundle
@@ -100,12 +99,12 @@ class HabitListFragment : Fragment() {
 
         fun bindCrime(habit: Habit) {
             this.habit = habit
-            habitListItemName.text = habit.name
+            habitListItemName.text = habit.title
             habitListItemDescription.text = habit.description
             habitListItemPriority.text = habit.priority.name
             habitListItemType.text = habit.type.name
-            habitListItemQuantity.text = getString(R.string.quantity, habit.quantity)
-            habitListItemPeriodicity.text = getString(R.string.periodicity, habit.periodicity)
+            habitListItemQuantity.text = getString(R.string.quantity, habit.count)
+            habitListItemPeriodicity.text = getString(R.string.periodicity, habit.frequency)
             habitRelativeLayout.setBackgroundColor(ContextCompat.getColor(activity!!, habit.color.colorId))
         }
     }

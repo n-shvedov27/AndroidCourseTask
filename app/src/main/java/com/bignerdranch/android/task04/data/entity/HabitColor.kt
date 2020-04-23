@@ -1,4 +1,4 @@
-package com.bignerdranch.android.task04.data.db.entity
+package com.bignerdranch.android.task04.data.entity
 import androidx.room.TypeConverter
 import com.bignerdranch.android.task04.R
 

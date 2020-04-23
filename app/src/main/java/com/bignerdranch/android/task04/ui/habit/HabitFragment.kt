@@ -16,11 +16,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bignerdranch.android.task04.R
-import com.bignerdranch.android.task04.data.HabitRepository
-import com.bignerdranch.android.task04.data.db.entity.Habit
-import com.bignerdranch.android.task04.data.db.entity.HabitColor
-import com.bignerdranch.android.task04.data.db.entity.HabitPriority
-import com.bignerdranch.android.task04.data.db.entity.HabitType
+import com.bignerdranch.android.task04.data.entity.Habit
+import com.bignerdranch.android.task04.data.entity.HabitColor
+import com.bignerdranch.android.task04.data.entity.HabitPriority
+import com.bignerdranch.android.task04.data.entity.HabitType
 import com.bignerdranch.android.task04.ui.CustomTextWatcher
 import com.bignerdranch.android.task04.viewmodels.habit.HabitViewModel
 import kotlinx.android.synthetic.main.fragment_habit.*
@@ -37,8 +36,8 @@ class HabitFragment : Fragment() {
         habitViewModel = ViewModelProvider(this, object : ViewModelProvider.Factory {
             @Suppress("UNCHECKED_CAST")
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                val habitId: Long? = arguments?.getSerializable(EXTRA_HABIT_ID_KEY)?.let {
-                    return@let it as Long
+                val habitId: UUID? = arguments?.getSerializable(EXTRA_HABIT_ID_KEY)?.let {
+                    return@let it as UUID
                 } ?: run {
                     return@run null
                 }
@@ -191,7 +190,7 @@ class HabitFragment : Fragment() {
     private fun initUI(view: View) {
         habitName.addTextChangedListener(object : CustomTextWatcher() {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                habit?.name = s.toString()
+                habit?.title = s.toString()
             }
         })
         habitDescription.addTextChangedListener(object : CustomTextWatcher() {
@@ -201,12 +200,12 @@ class HabitFragment : Fragment() {
         })
         habit_quantity.addTextChangedListener(object : CustomTextWatcher() {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                habit?.quantity = s.toString().ifEmpty { "0" }.toInt()
+                habit?.count = s.toString().ifEmpty { "0" }.toInt()
             }
         })
         habitPeriodicity.addTextChangedListener(object : CustomTextWatcher() {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                habit?.periodicity = s.toString().ifEmpty { "0" }.toInt()
+                habit?.frequency = s.toString().ifEmpty { "0" }.toInt()
             }
         })
 
@@ -289,7 +288,7 @@ class HabitFragment : Fragment() {
                 colorPickRecyclerView.smoothScrollToPosition(HabitColor.values().indexOf(it.color))
             }
 
-            habitName.setText(it.name)
+            habitName.setText(it.title)
             habitDescription.setText(it.description)
 
             val priorityIndex = HabitPriority.values().indexOf(it.priority)
@@ -298,8 +297,8 @@ class HabitFragment : Fragment() {
             val typeIndex = HabitType.values().indexOf(it.type)
             (habitType.getChildAt(typeIndex) as RadioButton).isChecked = true
 
-            habit_quantity.setText(it.quantity.toString())
-            habitPeriodicity.setText(it.periodicity.toString())
+            habit_quantity.setText(it.count.toString())
+            habitPeriodicity.setText(it.frequency.toString())
 
             updateColorPicker()
         }
