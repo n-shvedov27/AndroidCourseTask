@@ -1,6 +1,7 @@
 package com.bignerdranch.android.task04.data.network
 
 import com.bignerdranch.android.task04.data.entity.Habit
+import com.bignerdranch.android.task04.data.network.response.HabitPushResponse
 import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.*
@@ -16,11 +17,12 @@ interface HabitApi {
     suspend fun putHabit(
         @Body habit: Habit,
         @Header("Authorization") token: String
-    ): Response<ResponseBody>
+    ): Response<HabitPushResponse>
 
-    @DELETE("users/{user}/repos")
+
+    @HTTP(method = "DELETE", path = "habit", hasBody = true)
     suspend fun deleteHabit(
-        @Path("user") userName: String,
+        @Body habit: Habit,
         @Header("Authorization") token: String
     ): Response<ResponseBody>
 }

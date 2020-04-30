@@ -2,16 +2,18 @@ package com.bignerdranch.android.task04.viewmodels.habit
 
 import android.app.Application
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.bignerdranch.android.task04.data.HabitRepository
 import com.bignerdranch.android.task04.data.entity.Habit
-import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import org.json.JSONObject
+import com.bignerdranch.android.task04.data.network.response.HabitPushResponse
+import com.bignerdranch.android.task04.viewmodels.habitlist.HabitListViewModel
+import kotlinx.coroutines.*
+import okhttp3.ResponseBody
+import retrofit2.Response
+import java.io.IOException
 import java.util.*
 import kotlin.coroutines.CoroutineContext
 
@@ -51,18 +53,52 @@ class HabitViewModel(
 
     public fun saveHabit() = launch(Dispatchers.IO) {
         habit.value!!.date = Date()
-        val pushResponse = habitRepository.push(habit.value!!, token)
 
-        if (pushResponse.code() == 200) {
-            val s = pushResponse.body()?.string()
+        var pushResponse : Response<HabitPushResponse>? = null
 
-            val rawJson = s!!.substring(0, s.length-1)
-            val jObjError = JSONObject(rawJson)
+        while (pushResponse?.isSuccessful != true) {
 
-            val uid = UUID.fromString(jObjError.getString("uid"))
+            try {
+                pushResponse = habitRepository.push(habit.value!!, token)
+            } catch (e: IOException) {
+                Log.e(HabitListViewModel.TAG, e.message ?: e.toString())
+            }
 
+            delay(1000)
+
+            if (pushResponse?.code() == 401) {
+                Toast.makeText(getApplication(), "Ошибка Авторизации", Toast.LENGTH_LONG).show()
+                break
+            }
+        }
+
+        pushResponse?.body()?.let {
+            val uid = UUID.fromString(it.uid)
             habit.value!!.uid = uid
             habitRepository.putHabit(habit.value!!)
         }
+    }
+
+    public fun deleteHabit() = launch(Dispatchers.IO) {
+
+        var deleteResponse : Response<ResponseBody>? = null
+
+        while (deleteResponse?.isSuccessful != true) {
+
+            try {
+                deleteResponse = habitRepository.deleteFromServer(habit.value!!, token)
+            } catch (e: IOException) {
+                Log.e(HabitListViewModel.TAG, e.message ?: e.toString())
+            }
+
+            delay(1000)
+
+            if (deleteResponse?.code() == 401) {
+                Toast.makeText(getApplication(), "Ошибка Авторизации", Toast.LENGTH_LONG).show()
+                break
+            }
+        }
+
+        habitRepository.deleteFromDb(habit.value!!)
     }
 }

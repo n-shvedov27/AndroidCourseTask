@@ -21,7 +21,7 @@ import java.util.*
 class HabitRepository(application: Application) {
     private val habitDao: HabitDao = MyDatabase.getDatabase(application).habitDao()
 
-    private lateinit var habitApi: HabitApi
+    private var habitApi: HabitApi
 
     init {
 
@@ -33,8 +33,7 @@ class HabitRepository(application: Application) {
             .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
             .build()
 
-        habitApi =
-        Retrofit.Builder()
+        habitApi = Retrofit.Builder()
             .baseUrl(Constants.BASE_URL)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create(gson))
@@ -52,7 +51,13 @@ class HabitRepository(application: Application) {
 
     fun putHabit(habit: Habit) = habitDao.insert(habit)
 
+    fun putHabits(habits: List<Habit>) = habitDao.insert(habits)
+
     suspend fun loadNew(token: String) = habitApi.getHabits(token)
 
     suspend fun push(habit: Habit, token: String) = habitApi.putHabit(habit, token)
+
+    fun deleteFromDb(habit: Habit) = habitDao.delete(habit)
+
+    suspend fun deleteFromServer(habit: Habit, token: String) = habitApi.deleteHabit(habit, token)
 }

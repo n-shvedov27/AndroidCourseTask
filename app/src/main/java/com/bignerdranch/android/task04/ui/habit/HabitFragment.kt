@@ -213,6 +213,7 @@ class HabitFragment : Fragment() {
         initPrioritySpinner()
         initTypeRadioGroup(view)
         initSaveButton()
+        initDeleteButton()
     }
 
     private fun initColorPicker() {
@@ -279,6 +280,18 @@ class HabitFragment : Fragment() {
                     ).show()
                 }
             }
+        }
+    }
+
+    private fun initDeleteButton() {
+        deleteHabitButton.setOnClickListener {
+            run {
+                habit?.let {
+
+                    habitViewModel.deleteHabit()
+                }
+            }
+            activity!!.onBackPressed()
         }
     }
 

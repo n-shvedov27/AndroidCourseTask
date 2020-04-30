@@ -125,8 +125,16 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:orientation="horizontal"
-            app:layout_constraintBottom_toTopOf="@+id/saveHabitButton" />
+            app:layout_constraintBottom_toTopOf="@+id/deleteHabitButton" />
 
+        <Button
+            android:id="@+id/deleteHabitButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/delete_habit"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toTopOf="@+id/saveHabitButton"/>
         <Button
             android:id="@+id/saveHabitButton"
             android:layout_width="match_parent"

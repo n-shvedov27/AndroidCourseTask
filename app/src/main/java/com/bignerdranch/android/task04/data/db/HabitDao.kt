@@ -24,5 +24,11 @@ interface HabitDao {
     fun getById(uid: String): LiveData<Habit?>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(employee: Habit)
+    fun insert(habit: Habit)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insert(habits: List<Habit>)
+
+    @Delete
+    fun delete(habit: Habit)
 }
